@@ -16,8 +16,6 @@ public class MainController {
         return "index";
     }
 
-    //request : WEB -> SERVER
-    //response : SERVER -> WEB
 
     @RequestMapping("/hello")
     public String hello(HttpServletRequest request, HttpServletResponse response) throws IOException {
