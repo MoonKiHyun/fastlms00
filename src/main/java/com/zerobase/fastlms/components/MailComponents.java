@@ -13,7 +13,7 @@ public class MailComponents {
 
     private final JavaMailSender javaMailSender;
 
-    public void SendMailTest() {
+    public void sendMailTest() {
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo("ansrlgus2tp@naver.com");
@@ -23,7 +23,7 @@ public class MailComponents {
         javaMailSender.send(msg);
     }
 
-    public boolean SendMail(String mail, String subject, String text) {
+    public boolean sendMail(String mail, String subject, String text) {
 
         boolean result = false;
 

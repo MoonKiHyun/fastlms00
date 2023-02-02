@@ -22,7 +22,7 @@ public class MainController {
         String subject = "(subject)안녕하세요. 제로베이스 입니다.";
         String text = "<p>(text)안녕하세요</p><p>반갑습니다</p>";
 
-        mailComponents.SendMail(email, subject, text);
+        mailComponents.sendMail(email, subject, text);
 
         return "index";
     }
