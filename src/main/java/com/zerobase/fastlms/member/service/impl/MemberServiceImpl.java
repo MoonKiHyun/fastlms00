@@ -32,23 +32,41 @@ public class MemberServiceImpl implements MemberService {
 
         String uuid = UUID.randomUUID().toString();
 
-        Member member = new Member();
-        member.setUser_Id(parameter.getUserID());
-        member.setUserName(parameter.getName());
-        member.setPassword(parameter.getPassword());
-        member.setPhone(parameter.getPhoneNumber());
-        member.setRegDt(LocalDateTime.now());
-        member.setEmailAuthYn(false);
-        member.setEmailAuthKey(uuid);
+        Member member = Member.builder()
+                .user_Id(parameter.getUserID())
+                .userName(parameter.getName())
+                .password(parameter.getPassword())
+                .phone(parameter.getPhoneNumber())
+                .regDt(LocalDateTime.now())
+                .emailAuthYn(false)
+                .emailAuthKey(uuid)
+                .build();
 
         memberRepository.save(member);
 
         String email = parameter.getUserID();
         String subject = "fasllms 가입은 축하드립니다.";
         String text = "<p>fasllms 사이트 가입을 축하드립니다.</p><p>아래 링크를 클릭하셔서 가입을 완료하시길 바립니다. </p>" +
-                "<div><a href='http://localhost:8080/member/email-auth?id=" + uuid + "'> 가입완료 </a></div>";
+                "<div><a target='_blank' href='http://localhost:8080/member/email-auth?id=" + uuid + "'> 가입완료 </a></div>";
 
         mailComponents.sendMail(email, subject, text);
+
+        return true;
+    }
+
+    @Override
+    public boolean emailAuth(String uuid) {
+
+        Optional<Member> optionalMember = memberRepository.findByEmailAuthKey(uuid);
+        if (!optionalMember.isPresent()) {
+            return false;
+        }
+
+        Member member = optionalMember.get();
+
+        member.setEmailAuthYn(true);
+        member.setEmailAuthDt(LocalDateTime.now());
+        memberRepository.save(member);
 
         return true;
     }
